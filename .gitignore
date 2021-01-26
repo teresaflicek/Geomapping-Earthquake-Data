@@ -2,8 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-config
+
+# ignoring config and ds_store files
+/config.
 .DS_Store
+
 # C extensions
 *.so
 
