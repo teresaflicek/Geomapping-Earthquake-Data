@@ -24,46 +24,51 @@ function createFeatures(earthquakeData) {
     });
 
     // sending our earthquakes layer to the createMap function
-    createMap(earthquakes);
+    createMap(earthquakes, depthMarkers, magnitudeMarkers);
+
+
+    function markerSize(size) {
+        // console.log(size)
+        return size * 4;
+      }
+
+
+    // define arrays to hold marker information for each feature
+    var magnitudeMarkers = [];
+    var depthMarkers = [];
+
+    // loop through earthquake data and create depth and magnitude markers
+    for (var i = 0; i < earthquakeData.length; i++) {
+        // setting the marker radius for the depth of the earthquake by passing coordinates into the markerSize function
+        // depthMarkers.push(
+        //     L.circle(earthquakeData[i].geometry.coordinates[2], {
+        //         stroke: false,
+        //         fillOpacity: 0.75,
+        //         color: "white",
+        //         fillColor: "white",
+        //         radius: markerSize(earthquakeData[i].geometry.coordinates[2])
+        //     })
+        // );
+
+        // setting the marker radius for the magnitude by passing magnitude property into the markerSize function
+        magnitudeMarkers.push(
+            L.circle(earthquakeData[i].geometry.coordinates[2], {
+                stroke: false,
+                fillOpacity: 0.75,
+                color: "purple",
+                fillColor: "purple",
+                radius: markerSize(earthquakeData[i].properties.mag)
+            })
+        );
+    }
+
 };
 
 
-// define arrays to hold marker information for each feature
-var magnitudeMarkers = [];
-var depthMarkers = [];
-
-// loop through earthquake data and create depth and magnitude markers
-for (var i = 0; i < earthquakedata.features.length; i++) {
-  // setting the marker radius for the depth of the earthquake by passing coordinates into the markerSize function
-  depthMarkers.push(
-    L.circle(earthquakedata[i].geometry.coordinates[2], {
-      stroke: false,
-      fillOpacity: 0.75,
-      color: "white",
-      fillColor: "white",
-      radius: markerSize(earthquakedata[i].geometry.coordinates[2])
-    })
-  );
-
-  // setting the marker radius for the magnitude by passing magnitude property into the markerSize function
-  magnitudeMarkers.push(
-    L.circle(earthquakedata[i].geometry.coordinates[2], {
-      stroke: false,
-      fillOpacity: 0.75,
-      color: "purple",
-      fillColor: "purple",
-      radius: markerSize(earthquakedata[i].features.properties.mag)
-    })
-  );
-}
 
 
 
-
-
-
-
-function createMap(earthquakes) {
+function createMap(earthquakes, magnitudeMarkers) {
 
     // define streetmap and darkmap layers
     var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -88,15 +93,15 @@ function createMap(earthquakes) {
         "Dark Map": darkmap
     };
 
-    // Create two separate layer groups: one for cities and one for states
-    var depth = L.layerGroup(depthMarkers);
+    // Create two separate layer groups: one for depth and one for magnitude
+    // var depth = L.layerGroup(depthMarkers);
     var magnitude = L.layerGroup(magnitudeMarkers);
 
 
     // create overlay object to hold our overlay layer
     var overlayMaps = {
         Earthquakes: earthquakes,
-        Depth: depth,
+        // Depth: depth,
         Magnitude: magnitude
     };
 
