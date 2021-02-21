@@ -24,7 +24,6 @@ function createFeatures(earthquakeData) {
 
     // create a function for the marker size of the circles
     function markerSize(size) {
-        // console.log(size)
         return size * 40000;
     };
 
@@ -32,22 +31,21 @@ function createFeatures(earthquakeData) {
     function markerColor(depth) {
         if (depth < 10) {
             return "#71FF33"
-        } else if (depth < 30){
+        } else if (depth < 30) {
             return "#E9FF33"
-        } else if (depth < 50){
+        } else if (depth < 50) {
             return "#FFC133"
-        } else if (depth < 70){
+        } else if (depth < 70) {
             return "#FF8D33"
-        } else if (depth < 100){
+        } else if (depth < 100) {
             return "#FF3933"
-        } else if (depth < 150){
+        } else if (depth < 150) {
             return "#F90E07"
         }
     };
 
-    // define arrays to hold marker information for each feature
+    // define array to hold marker information for each feature
     var magnitudeMarkers = [];
-    var depthMarkers = [];
 
     // loop through earthquake data and create depth and magnitude markers
     for (var i = 0; i < earthquakeData.length; i++) {
@@ -57,18 +55,16 @@ function createFeatures(earthquakeData) {
             L.circle([earthquakeData[i].geometry.coordinates[1], earthquakeData[i].geometry.coordinates[0]], {
                 stroke: false,
                 fillOpacity: 0.75,
-                color: "purple",
+                color: "#2A2323",
                 fillColor: markerColor(earthquakeData[i].geometry.coordinates[2]),
                 radius: markerSize(earthquakeData[i].properties.mag)
             })
         );
     }
+
+    // sending the earthquakes and magnitude markers to the createMap function
     createMap(earthquakes, magnitudeMarkers);
 };
-
-
-
-
 
 function createMap(earthquakes, magnitudeMarkers) {
 
@@ -95,25 +91,17 @@ function createMap(earthquakes, magnitudeMarkers) {
         "Dark Map": darkmap
     };
 
-    // Create two separate layer groups: one for depth and one for magnitude
+    // create two separate layer groups: one for depth and one for magnitude
     // var depth = L.layerGroup(depthMarkers);
     var magnitude = L.layerGroup(magnitudeMarkers);
-    console.log(magnitudeMarkers)
-    // magnitude.addTo(myMap);
-    // console.log("here i am", magnitude)
 
     // create overlay object to hold our overlay layer
     var overlayMaps = {
         Earthquakes: earthquakes,
-        // Depth: depth,
         Magnitude: magnitude
     };
 
-
-
-
-    console.log(magnitude)
-    // create our map, giving it the streetmap and earthquakes layers to display on load
+    // create our map, giving it the streetmap, earthquakes, and magnitude layers to display on load
     var myMap = L.map("mapid", {
         center: [
             37.09, -95.71
@@ -122,42 +110,38 @@ function createMap(earthquakes, magnitudeMarkers) {
         layers: [streetmap, earthquakes, magnitude]
     });
 
-
     // creating the legend to show the colors coordinating to depth of each earthquake
     var legend = L.control({
         position: "bottomright"
-      });
+    });
 
-      // creating a div to hold the legend
-      legend.onAdd = function() {
+    // creating a div to hold the legend
+    legend.onAdd = function () {
         var div = L.DomUtil.create("div", "info legend");
 
         // create ranges and colors variables correlating to the markers
         var ranges = [-10, 10, 30, 50, 70, 90];
         var colors = [
-          "#71FF33",
-          "#E9FF33",
-          "#FFC133",
-          "#FF8D33",
-          "#FF3933",
-          "#F90E07"];
+            "#71FF33",
+            "#E9FF33",
+            "#FFC133",
+            "#FF8D33",
+            "#FF3933",
+            "#F90E07"];
+
         // loop through each range and create a label for the legend.
-        for (var i = 0; i < ranges.length-1; i++) {
-          div.innerHTML += "<i style='background: "
-            + colors[i]
-            + "'></i> "
-            + ranges[i]
-            + "-" + ranges[i + 1] + "<br>"  
+        for (var i = 0; i < ranges.length - 1; i++) {
+            div.innerHTML += "<i style='background: "
+                + colors[i]
+                + "'></i> "
+                + ranges[i]
+                + "-" + ranges[i + 1] + "<br>"
         }
         console.log(div.innerHTML)
         return div;
-      };
-      // add legend to the map.
-      legend.addTo(myMap);
-
-
-
-
+    };
+    // add legend to the map.
+    legend.addTo(myMap);
 
     // create a layer control
     // pass in our baseMaps and overlayMaps
