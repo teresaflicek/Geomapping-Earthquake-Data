@@ -11,4 +11,3 @@ The USGS is interested in building a new set of tools that will allow them visua
 
 ![picture of earthquake dashboard](Leaflet-Step-1/geomap_preview.png)
 
-[Link to Dashboard!](https://www.example.com)
