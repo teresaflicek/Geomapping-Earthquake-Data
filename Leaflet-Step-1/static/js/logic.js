@@ -37,9 +37,9 @@ function createFeatures(earthquakeData) {
             return "#FFC133"
         } else if (depth < 70) {
             return "#FF8D33"
-        } else if (depth < 100) {
+        } else if (depth < 90) {
             return "#FF3933"
-        } else if (depth < 150) {
+        } else if (depth < 110) {
             return "#F90E07"
         }
     };
@@ -55,7 +55,7 @@ function createFeatures(earthquakeData) {
             L.circle([earthquakeData[i].geometry.coordinates[1], earthquakeData[i].geometry.coordinates[0]], {
                 stroke: false,
                 fillOpacity: 0.75,
-                color: "#2A2323",
+                stroke: "#2A2323",
                 fillColor: markerColor(earthquakeData[i].geometry.coordinates[2]),
                 radius: markerSize(earthquakeData[i].properties.mag)
             })
@@ -119,6 +119,8 @@ function createMap(earthquakes, magnitudeMarkers) {
     legend.onAdd = function () {
         var div = L.DomUtil.create("div", "info legend");
 
+        var label = ['<strong>Depth</strong>'];
+        
         // create ranges and colors variables correlating to the markers
         var ranges = [-10, 10, 30, 50, 70, 90];
         var colors = [
@@ -130,16 +132,19 @@ function createMap(earthquakes, magnitudeMarkers) {
             "#F90E07"];
 
         // loop through each range and create a label for the legend.
-        for (var i = 0; i < ranges.length - 1; i++) {
-            div.innerHTML += "<i style='background: "
+        for (var i = 0; i < ranges.length; i++) {
+            
+            div.innerHTML += label.push("<i style='background: "
                 + colors[i]
                 + "'></i> "
                 + ranges[i]
-                + "-" + ranges[i + 1] + "<br>"
+                + "-" + ranges[i + 1] + "<br>");
         }
-        console.log(div.innerHTML)
+            div.innerHTML = label.join("<br>");
+ 
         return div;
     };
+    
     // add legend to the map.
     legend.addTo(myMap);
 
