@@ -131,7 +131,7 @@ function createMap(earthquakes, magnitudeMarkers) {
             "#FF3933",
             "#F90E07"];
 
-        // loop through each range and create a label for the legend.
+        // loop through each range and create a label - and add the title to the top of the legend
         for (var i = 0; i < ranges.length; i++) {
             
             div.innerHTML += label.push("<i style='background: "
@@ -145,7 +145,7 @@ function createMap(earthquakes, magnitudeMarkers) {
         return div;
     };
     
-    // add legend to the map.
+    // add legend to the map
     legend.addTo(myMap);
 
     // create a layer control
