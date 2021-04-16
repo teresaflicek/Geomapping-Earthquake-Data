@@ -11,4 +11,4 @@ The USGS is interested in building a new set of tools that will allow them visua
 
 
 
-[Link to Dashboard!](https://teresaflicek.github.io/Geomapping-Earthquake-Data/)
+[Link to Dashboard!](https://teresaflicek.github.io/Geomapping-Earthquake-Data/Leaflet-Step-1)
