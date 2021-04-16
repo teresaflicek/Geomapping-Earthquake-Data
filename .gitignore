@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # ignoring config and ds_store files
-**/config.js
 **/.DS_Store
 
 # C extensions
